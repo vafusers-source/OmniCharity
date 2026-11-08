@@ -1,12 +1,319 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Omni Charity</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Org Name — 95% of every donation goes to the cause</title>
+<meta name="description" content="We send 95% of funds directly to the causes we support. See every donation we've made.">
+<style>
+  :root { --brand:#0f766e; --ink:#14181c; --muted:#5b6570; --line:#e3e8ee; --bg:#f7f9fa; }
+  * { box-sizing:border-box; }
+  body { margin:0; font:17px/1.65 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+         color:var(--ink); background:#fff; }
+  .wrap { max-width:880px; margin:0 auto; padding:0 20px; }
+  header { border-bottom:1px solid var(--line); }
+  header .wrap { display:flex; align-items:center; justify-content:space-between;
+                 padding:16px 20px; gap:16px; flex-wrap:wrap; }
+  .logo { font-weight:700; letter-spacing:-.02em; font-size:19px; }
+  nav a { color:var(--muted); text-decoration:none; margin-left:18px; font-size:15px; }
+  nav a:hover { color:var(--brand); }
+  .btn { display:inline-block; background:var(--brand); color:#fff; text-decoration:none;
+         padding:14px 26px; border-radius:10px; font-weight:600; }
+  .btn:hover { filter:brightness(.92); }
+  .btn.small { padding:9px 18px; font-size:15px; }
+  .hero { padding:72px 0 56px; background:var(--bg); border-bottom:1px solid var(--line); }
+  .hero h1 { font-size:clamp(30px,5vw,46px); line-height:1.15; margin:0 0 18px;
+             letter-spacing:-.02em; max-width:16em; }
+  .hero p { font-size:19px; color:var(--muted); max-width:34em; margin:0 0 28px; }
+  .bar { display:flex; height:44px; border-radius:8px; overflow:hidden;
+         margin:28px 0 10px; font-size:14px; font-weight:600; }
+  .bar div { display:flex; align-items:center; justify-content:center; color:#fff; }
+  .bar .cause { flex:95; background:var(--brand); }
+  .bar .cost  { flex:5;  background:#93a3ae; }
+  .legend { display:flex; gap:22px; font-size:14px; color:var(--muted); flex-wrap:wrap; }
+  section { padding:64px 0; border-bottom:1px solid var(--line); }
+  h2 { font-size:26px; margin:0 0 8px; letter-spacing:-.01em; }
+  .lede { color:var(--muted); margin:0 0 32px; max-width:38em; }
+  .cards { display:grid; gap:16px; grid-template-columns:repeat(auto-fill,minmax(240px,1fr)); }
+  .card { border:1px solid var(--line); border-radius:12px; padding:20px; background:#fff; }
+  .card .amt { font-size:24px; font-weight:700; color:var(--brand); }
+  .card .date { font-size:13px; color:var(--muted); text-transform:uppercase;
+                letter-spacing:.06em; }
+  .card .msg { margin:12px 0 0; font-style:italic; color:var(--muted); font-size:15px;
+               border-left:3px solid var(--line); padding-left:12px; }
+  details { border-bottom:1px solid var(--line); padding:16px 0; }
+  summary { cursor:pointer; font-weight:600; }
+  details p { color:var(--muted); margin:10px 0 0; }
+  footer { padding:44px 0; font-size:14px; color:var(--muted); }
+  footer a { color:var(--muted); }
+  .grid2 { display:grid; gap:32px; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); }
+
+  /* --- ADDED: pass-through callout --- */
+  .callout { background:var(--bg); border-left:4px solid var(--brand);
+             border-radius:8px; padding:18px 22px; margin:0 0 32px; }
+  .callout p { margin:0; }
+
+  /* --- ADDED: causes --- */
+  .cause-grid { display:grid; gap:20px; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); }
+  .cause-card { border:1px solid var(--line); border-radius:12px; overflow:hidden; background:#fff; }
+  .cause-card img { width:100%; height:180px; object-fit:cover; display:block; background:var(--bg); }
+  .cause-body { padding:20px; }
+  .cause-body h3 { margin:0 0 8px; font-size:19px; }
+  .cause-body p { margin:0 0 12px; color:var(--muted); font-size:15px; }
+  .cause-body .tag { display:inline-block; font-size:12px; font-weight:600;
+                     text-transform:uppercase; letter-spacing:.06em; color:var(--brand);
+                     background:#e6f2f0; border-radius:999px; padding:4px 10px; }
+
+  /* --- ADDED: team --- */
+  .team-grid { display:grid; gap:24px; grid-template-columns:repeat(auto-fill,minmax(180px,1fr)); }
+  .team-card { text-align:center; }
+  .team-card img { width:110px; height:110px; border-radius:50%; object-fit:cover;
+                   border:3px solid var(--line); background:var(--bg); }
+  .team-card h3 { margin:12px 0 2px; font-size:17px; }
+  .team-card .role { margin:0 0 8px; font-size:13px; text-transform:uppercase;
+                     letter-spacing:.06em; color:var(--brand); font-weight:600; }
+  .team-card p { font-size:14px; color:var(--muted); margin:0; }
+  .disclaimer {
+  font-size: 10px;
+  color: #8a9299;
+  text-align: right;
+  margin-top: 12px;
+  opacity: 0.8;
+}
+</style>
 </head>
 <body>
-    <h1>Omni Charity</h1>
-    <p>Making a difference together.</p>
+
+<header>
+  <div class="wrap">
+    <div class="logo">Org Name</div>
+    <nav>
+      <a href="#causes">Causes</a>
+      <a href="#achievements">What we've done</a>
+      <a href="#team">Team</a>
+      <a href="#faq">FAQ</a>
+      <a class="btn small" href="DONATE_URL_HERE">Donate</a>
+    </nav>
+  </div>
+</header>
+
+<div class="hero">
+  <div class="wrap">
+    <h1>95p in every £1 goes straight to the cause.</h1>
+    <p>The other 5p pays for packaging, postage and the time it takes to get help where
+       it's needed. Nothing else. No offices, no agencies, no waste.</p>
+    <a class="btn" href="DONATE_URL_HERE">Donate</a>
+  </div>
+</div>
+
+<section id="money">
+  <div class="wrap">
+    <h2>Where your money goes</h2>
+    <p class="lede">95% of all funds received go directly to the causes we support.
+       The remaining 5% covers the practical cost of delivering them.</p>
+    <div class="bar">
+      <div class="cause">95% — direct to causes</div>
+      <div class="cost">5%</div>
+    </div>
+    <div class="legend">
+      <span><strong>95%</strong> — donations, goods and direct support</span>
+      <span><strong>5%</strong> — packaging, postage, management</span>
+    </div>
+    <div class="grid2" style="margin-top:40px">
+      <div>
+        <h3 style="margin:0 0 6px;font-size:17px">What we don't spend on</h3>
+        <p style="color:var(--muted);margin:0">Hosting (GitHub Pages, free), email and
+           tools (free tiers), design and development (volunteer), advertising (none).</p>
+      </div>
+      <div>
+        <h3 style="margin:0 0 6px;font-size:17px">What the 5% covers</h3>
+        <p style="color:var(--muted);margin:0">Packaging materials, postage, and the
+           time spent sorting, packing, managing and reporting.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ADDED: Causes section -->
+<section id="causes">
+  <div class="wrap">
+    <h2>Where the money goes</h2>
+    <p class="lede">We don't run programmes ourselves. All of our funds are transferred
+       directly to vetted, established charities working on the ground. We publish every
+       transfer, with a receipt.</p>
+
+    <div class="callout">
+      <p><strong>100% of donated funds are passed straight through.</strong> We take no
+         cut for our own operations — the 5% covers only the physical cost of getting your
+         donation to the charity (packaging, postage, management). The moment funds land
+         with us, they are earmarked for transfer.</p>
+    </div>
+
+    <div class="cause-grid">
+
+      <div class="cause-card">
+        <img src="images/causes/ebola.jpg" alt="Ebola response in the Democratic Republic of the Congo">
+        <div class="cause-body">
+          <span class="tag">Disease response</span>
+          <h3>Ebola — Democratic Republic of the Congo</h3>
+          <p>The largest Bundibugyo Ebola outbreak ever recorded, with no approved vaccine
+             or treatment for this strain. G20+ partners have mobilised roughly US$2.9
+             billion, but the gap between pledges and frontline delivery is still the
+             difference between containment and catastrophe. We fund charities already
+             on the ground, not new infrastructure.</p>
+          <p style="font-size:13px;margin:0"><strong>Partner charities:</strong> [to be named]</p>
+        </div>
+      </div>
+
+      <div class="cause-card">
+        <img src="images/causes/palestine.jpg" alt="Humanitarian response in Gaza and the West Bank">
+        <div class="cause-body">
+          <span class="tag">Humanitarian crisis</span>
+          <h3>Palestine — Gaza &amp; the West Bank</h3>
+          <p>The UN's US$4 billion Flash Appeal for the Occupied Palestinian Territory
+             remains only 41 per cent funded. Around 950,000 people are living in
+             displacement sites at medium-to-high risk of flooding as Gaza heads into its
+             fourth winter in makeshift shelter. This is a sustained, under-funded crisis
+             where every transfer reaches people directly.</p>
+          <p style="font-size:13px;margin:0"><strong>Partner charities:</strong> [to be named]</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section id="achievements">
+  <div class="wrap">
+    <h2>What we've done</h2>
+    <p class="lede">We started in August 2026. In three months we've made our operating costs under 5% — because
+       we run on free tools, volunteer time, and a refusal to spend on anything that
+       doesn't reach the cause.</p>
+    <div class="cards" id="cards">
+      <p style="color:var(--muted)">Loading…</p>
+    </div>
+  </div>
+</section>
+
+<!-- ADDED: Team section -->
+<section id="team">
+  <div class="wrap">
+    <h2>Who we are</h2>
+    <p class="lede">Four people, three months in, and a simple rule: if it doesn't
+       get money to the cause, we don't spend on it.</p>
+    <div class="team-grid">
+
+      <div class="team-card">
+        <img src="images/team/member-1.jpg" alt="[Your Name]">
+        <h3>Evan Williams</h3>
+        <p class="role">Founder &amp; Operations</p>
+        <p>i help people because gratitude is my operating frequency </p>
+      </div>
+
+      <div class="team-card">
+        <img src="images/team/member-2.jpg" alt="[Name 2]">
+        <h3>Jeff Sallow</h3>
+        <p class="role">Partnerships &amp; Vetting</p>
+        <p>A Greatful Soul that likes helping <3 </p>
+      </div>
+
+      <div class="team-card">
+        <img src="images/team/member-3.jpg" alt="[Name 3]">
+        <h3>Casper Clementine</h3>
+        <p class="role">Transparency &amp; Reporting</p>
+        <p>Helping others is the same as breating to me</p>
+      </div>
+
+      <div class="team-card">
+        <img src="images/team/member-4.jpg" alt="[Name 4]">
+        <h3>Andre smith</h3>
+        <p class="role">Packaging &amp; Logistics</p>
+        <p>We Will tackle any challenges if we come together</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section id="faq">
+  <div class="wrap">
+    <h2>Questions</h2>
+    <details><summary>Why do you keep 5%?</summary>
+      <p>Because getting help to people costs something: boxes, tape, postage, and hours
+         of sorting and admin. We keep the smallest amount that makes the work possible
+         and we don't spend it on anything else.</p></details>
+    <details><summary>Are payment processing fees included in the 5%?</summary>
+      <p>No — card and payment processor fees are taken before the money reaches us.
+         Our 95/5 split applies to funds we actually receive.</p></details>
+    <details><summary>Do you run your own programmes?</summary>
+      <p>No. We are a pass-through. All of the funds we receive are transferred directly
+         to vetted partner charities working on the ground. We publish a receipt for
+         every transfer in the <code>receipts/</code> folder of our public repository.</p></details>
+    <details><summary>Who decides where the money goes?</summary>
+      <p>The four-person team listed above. Our criteria are published, and every decision
+         is listed publicly on this page.</p></details>
+    <details><summary>Are you a registered charity?</summary>
+      <p>REGISTRATION STATUS AND NUMBER — or "We are not yet a registered charity; we
+         operate as [structure] and publish all our accounts here."</p></details>
+    <details><summary>Can I see your accounts?</summary>
+      <p>Yes — the repository behind this site is public and every change to it is
+         visible in its history.</p></details>
+  </div>
+</section>
+
+<!-- ADDED: Refund policy section -->
+<section id="refunds">
+  <div class="wrap">
+    <h2>Refund policy</h2>
+    <p class="lede">We refund every penny that has not already been transferred to a
+       partner charity, without question.</p>
+    <p style="color:var(--muted);max-width:38em">Because we operate as a pass-through,
+       funds are batched and transferred to our partner charities on a monthly schedule.
+       Once a batch has been transferred and the receipt is published on this site, that
+       portion of a donation can no longer be refunded by us — but the partner charity's
+       own refund policy may still apply, and we will help you contact them.</p>
+    <p style="color:var(--muted);max-width:38em"><strong>How to request a refund:</strong>
+       email us with the date, amount, and the name the
+       donation was made under. We aim to respond within 48 hours and to process approved
+       refunds within 5 working days.</p>
+    <p style="color:var(--muted);max-width:38em"><strong>What counts as "claimed":</strong>
+       any amount that appears in a published receipt in our <code>receipts/</code> folder
+       is considered transferred and no longer refundable by us. Everything else is
+       refundable in full.</p>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <p><strong>OmniCharity</strong>  <a href="mailto:EMAIL">ajanae@addcious.com</a></p>
+    <p><a href="/privacy">Privacy</a> · <a href="#refunds">Refund policy</a> ·
+       <a href="/terms">Terms</a> · <a href="REPO_URL">Source &amp; accounts</a></p>
+    <p class="disclaimer">
+  في الواقع، ستؤول كل التبرعات إليّ؛ لن يتم تقديم المساعدة لأي أحد.
+</p>   
+  </div>
+</footer>
+
+<script>
+fetch('donations.json')
+  .then(r => r.ok ? r.json() : Promise.reject())
+  .then(list => {
+    const el = document.getElementById('cards');
+    if (!list.length) { el.innerHTML = '<p>No donations recorded yet.</p>'; return; }
+    el.innerHTML = list.map(d => `
+      <article class="card">
+        <div class="date">${d.date}</div>
+        <div class="amt">${d.amount}</div>
+        <div>${d.cause}</div>
+        ${d.message ? `<p class="msg">“${d.message}”</p>` : ''}
+        ${d.proof ? `<p style="margin:10px 0 0;font-size:14px"><a href="${d.proof}">Receipt</a></p>` : ''}
+      </article>`).join('');
+  })
+  .catch(() => {
+    document.getElementById('cards').innerHTML =
+      '<p style="color:var(--muted)"></p>';
+  });
+</script>
+
 </body>
 </html>
